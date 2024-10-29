@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "DangerDetector",
+  "version": "1.0",
+  "description": "Blocks weird links and warns about unsafe websites.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "activeTab",
+    "storage",
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "icons": {
+    "48": "icon.png"
+  }
+}
