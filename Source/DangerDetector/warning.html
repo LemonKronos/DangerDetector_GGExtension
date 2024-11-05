@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .warning-box {
+            background-color: #f44336;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="warning-box">
+        <h2>Warning: This site is unsafe</h2>
+        <p>You are about to access an unsafe site. Please choose an option:</p>
+        <button id="proceedButton">Proceed to Site</button>
+        <button id="goBackButton">Go Back</button>
+    </div>
+
+    <script src="warning.js"></script>
+</body>
+</html>
