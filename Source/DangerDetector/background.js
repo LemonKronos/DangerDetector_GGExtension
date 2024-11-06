@@ -1,5 +1,10 @@
-const blockedSites = ['badsite.com', 'malicious.com'];
-const unRedirectableSites = ['google.com', 'youtube.com', 'github.com', 'guthib.com'];
+const blockedSites = [
+  'badsite.com', 'malicious.com'
+];
+
+const unRedirectableSites = [
+  'google.com', 'youtube.com', 'github.com', 'guthib.com', 'hcmut.edu.vn'
+];
 
 // Generator function for unique rule IDs
 function* uniqueIdGenerator() {
@@ -158,15 +163,28 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       createNonDirectingRule(url, ruleId);  // Add allow rule for unRedirectable sites
       console.log(`Site added to unRedirectableSites: ${url}`);
       sendResponse({ success: true });
+      redirectUrls = [];
     } else {
       console.log(`Site already in unRedirectableSites: ${url}`);
       sendResponse({ success: false });
     }
   }
 
-  else if (message.action === 'getCapturedRedirectUrls') {
+  if (message.action === 'getCapturedRedirectUrls') {
     sendResponse({ redirectUrls });
   }
+
+  if (message.action === 'enable') {
+    console.log('Safe sites: ', unRedirectableSites);
+    generateRules();
+    redirectUrls = [];
+  }
+  if (message.action === 'disable') {
+    console.log('DangerDetector Disabled');
+    removeExistingRules();
+    redirectUrls = [];
+  }
+
   return true;
 });
 
@@ -176,15 +194,19 @@ chrome.webRequest.onBeforeRequest.addListener(
     const url = details.url;
 
     // Capture the URL if it's not in the unRedirectableSites list
-    if (!unRedirectableSites.some(site => url.includes(site)) && !blockedSites.some(site => url.includes(site))) {
-      redirectUrls.push(url);  // Store the captured URL
-      console.log("Captured list: ", redirectUrls);
-    }
-    else {
-      redirectUrls = [];
+    if (!url.includes("popup") && !url.includes("warning")) {
+      if (!unRedirectableSites.some(site => url.includes(site)) 
+       && !blockedSites.some(site => url.includes(site))) {
+        redirectUrls.push(url);  // Store the captured URL
+        console.log("Captured list: ", redirectUrls);
+      }
+      else {
+        redirectUrls = [];
+      }
     }
   },
   {
     urls: ["<all_urls>"],
   },
 );
+
