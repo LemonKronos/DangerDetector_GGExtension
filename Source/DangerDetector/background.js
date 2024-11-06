@@ -164,6 +164,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       console.log(`Site added to unRedirectableSites: ${url}`);
       sendResponse({ success: true });
       redirectUrls = [];
+      if (!message.save) {
+        removeRules([ruleId]);
+        unRedirectableSites.pop();
+      }
     } else {
       console.log(`Site already in unRedirectableSites: ${url}`);
       sendResponse({ success: false });
