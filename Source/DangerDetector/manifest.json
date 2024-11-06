@@ -4,6 +4,7 @@
   "version": "1.0",
   "description": "Blocks weird links and warns about unsafe websites.",
   "action": {
+    "default_popup": "popup.html",
     "default_icon": "icon48.png"
   },
   "permissions": [
