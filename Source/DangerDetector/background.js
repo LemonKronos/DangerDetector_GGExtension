@@ -65,9 +65,10 @@ chrome.declarativeNetRequest.updateDynamicRules({
 
 // Monitor downloads and notify user
 chrome.downloads.onCreated.addListener(function(downloadItem) {
+  console.log('Download started:', downloadItem);
   chrome.notifications.create({
     type: 'basic',
-    iconUrl: 'icon.png',
+    iconUrl: chrome.runtime.getURL('icon.png'),
     title: 'Download Started',
     message: `Downloading: ${downloadItem.filename}`,
     priority: 1
@@ -75,12 +76,14 @@ chrome.downloads.onCreated.addListener(function(downloadItem) {
 });
 
 chrome.downloads.onChanged.addListener(function(downloadDelta) {
+  console.log('Download changed:', downloadDelta);
   if (downloadDelta.state && downloadDelta.state.current === 'complete') {
     chrome.downloads.search({id: downloadDelta.id}, function(results) {
+      console.log('Download search results:', results);
       if (results.length > 0) {
         chrome.notifications.create({
           type: 'basic',
-          iconUrl: 'icon.png',
+          iconUrl: chrome.runtime.getURL('icon.png'),
           title: 'Download Complete',
           message: `Download finished: ${results[0].filename}`,
           priority: 1
@@ -88,4 +91,12 @@ chrome.downloads.onChanged.addListener(function(downloadDelta) {
       }
     });
   }
+});
+
+chrome.notifications.create({
+  type: 'basic',
+  iconUrl: chrome.runtime.getURL('icon.png'),
+  title: 'Download Started',
+  message: `Downloading: ${downloadItem.filename}`,
+  priority: 1
 });
